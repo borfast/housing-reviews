@@ -1,0 +1,1 @@
+web: gunicorn -w 9 -k gevent --max-requests 250 housing_reviews.wsgi

@@ -1,0 +1,54 @@
+html, body {
+	font-family: 'Droid Sans', sans-serif;
+}
+
+h1 {
+	font-family: 'Droid Serif', serif;
+}
+
+#login-normal {
+	border-right: 1px dotted #ccc;
+}
+
+.openid_large_btn {
+	background-image: url(../img/openid-logos.png);
+	background-repeat: no-repeat;
+	background-color: #fff;
+	position: relative;
+	display: block;
+	float: left;
+	margin: 0 6px 6px 0;
+	width: 105px;
+	height: 60px;
+	border: 2px solid #DDD;
+	border-right: 2px solid #ccc;
+	border-bottom: 2px solid #ccc;
+	border-radius: 5px;
+	box-shadow: 2px 2px 4px #ddd;
+	cursor: pointer;
+}
+
+.Google-login {
+	background-position: -1px -1px;
+}
+
+.Facebook-login {
+	background-position: -1px -249px;
+}
+
+
+#reviews-list {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
+
+.review {
+	margin-bottom: 3em;
+}
+
+.review-votes {
+	margin-top: 2em;
+	padding-top: 1em;
+	border-top: 1px dotted gray;
+}

@@ -1,0 +1,17 @@
+{% load i18n %}
+Hey there!
+
+{% blocktrans with site.name as sitename and invitation_key.from_user.username as username %}You have received an invitation to join {{ sitename }}!{% endblocktrans %}
+
+{% trans "Go to" %}
+http://{{site.domain}}{% url 'invitation_invited' invitation_key=invitation_key.key %}
+{% trans "to join!" %}
+
+We are aware that the website is still a bit raw and we are working on it.
+In the meanwhile, please, please, please provide us with feedback, so we can make it better for everyone!
+After you log in, there's a tab on the left hand side of the site that you can use to contact us requesting support and to provide feedback.
+
+{% blocktrans with site.name as sitename %}
+All the best,
+The {{ sitename }} Team
+{% endblocktrans %}

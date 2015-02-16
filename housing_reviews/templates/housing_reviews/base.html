@@ -1,0 +1,129 @@
+{% load static %}
+{% load activeurl %}
+{% load analytical %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    {% analytical_head_top %}
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>St Andrews Housing Reviews</title>
+	<meta name="description" content="Anonymous reviews of letting agents, landlords and houses.">
+	<meta name="viewport" content="width=device-width">
+
+	<link href='http://fonts.googleapis.com/css?family=Droid+Serif' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Droid+Sans:400,700' rel='stylesheet' type='text/css'>
+
+	<link href="{% static 'housing_reviews/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'housing_reviews/css/main.css' %}" rel="stylesheet">
+
+	<script src="{% static 'housing_reviews/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js' %}"></script>
+    {% analytical_head_bottom %}
+</head>
+<body>
+    {% analytical_body_top %}
+
+	<!--[if lt IE 7]>
+		<p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+	<![endif]-->
+
+
+
+    <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+    <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/KebtPtV2ezTXLj4fvS3Xg.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+
+    <!-- A tab to launch the Classic Widget -->
+    <script>
+    UserVoice = window.UserVoice || [];
+    UserVoice.push(['showTab', 'classic_widget', {
+      mode: 'full',
+      primary_color: '#cc6d00',
+      link_color: '#007dbf',
+      default_mode: 'support',
+      forum_id: 220773,
+      tab_label: 'Feedback & Support',
+      tab_color: '#cc6d00',
+      tab_position: 'middle-left',
+      tab_inverted: false
+    }]);
+    </script>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <nav class="navbar navbar-default" role="navigation">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{% url 'home:home' %}">St Andrews Housing Reviews</a>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse navbar-ex1-collapse">
+                        {% activeurl %}
+                        <ul class="nav navbar-nav">
+                            <li><a href="{% url 'reviews:list' %}">Reviews</a></li>
+                            <li><a href="{% url 'agencies:list' %}">Agencies</a></li>
+                            <li><a href="{% url 'about' %}">About</a></li>
+                            <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-primary-color="#cc6d00" data-uv-link-color="#007dbf" data-uv-default-mode="support" data-uv-forum-id="220773">Feedback &amp; Support</a></li>
+                        </ul>
+                        {% endactiveurl %}
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                {% if user.is_authenticated %}
+                                <a rel="nofollow" href="{% url 'account_logout' %}">Logout</a>
+                                {% else %}
+                                <a href="{% url 'account_login' %}">Login</a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </nav>
+
+                {% if messages %}
+                    {% for message in messages %}
+                    <div class="alert alert-dismissable {% if message.tags %} alert-{{ message.tags }}{% endif %}">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <p>{{ message }}</p>
+                    </div>
+                    {% endfor %}
+                {% endif %}
+
+                <div class="panel panel-default">
+                    <div class="panel-heading"><h2 class="panel-title">{% block panel-title %}{% endblock %}</h2></div>
+                    <div class="panel-body">
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+
+                <hr>
+
+                <footer>
+                    <p>St Andrews Housing Reviews - since 2013</p>
+                </footer>
+
+            </div>
+        </div>
+    </div> <!-- /container -->
+
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="{% static 'housing_reviews/js/vendor/jquery-1.10.2.min.js' %}"><\/script>')</script>
+    <script src="{% static 'housing_reviews/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'housing_reviews/js/main.js' %}"></script>
+
+    {% analytical_body_bottom %}
+
+    {% block javascript %}{% endblock %}
+
+</body>
+</html>

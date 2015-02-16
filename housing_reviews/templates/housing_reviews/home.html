@@ -1,0 +1,12 @@
+{% extends "housing_reviews/base.html" %}
+
+{% block panel-title %}Latest reviews{% endblock %}
+
+{% block content %}
+{% for review in reviews %}
+review.
+{% empty %}
+<p>No reviews yet. Why not write one yourself?</p>
+{% endfor %}
+<p><a class="btn" href="#">View Reviews &raquo;</a> <a class="btn" href="#">Write a Review &raquo;</a></p>
+{% endblock %}

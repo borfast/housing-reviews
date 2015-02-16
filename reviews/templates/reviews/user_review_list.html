@@ -1,0 +1,74 @@
+{% extends "housing_reviews/base.html" %}
+
+{% block panel-title %}Reviews{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-8">
+
+		{% if reviews %}
+		<ul id="reviews-list">
+			{% for review in reviews %}
+			<li class="review">
+				<h4 class="review-title">&ldquo;{{ review.title }}&rdquo;</h4>
+				<div class="review-agency-name">{{ review.agency.name }}</div>
+				<div class="raty-stars"><span class="review-rating">{{ review.rating }}</span></div>
+				<div class="review-text">{{ review.review|truncatewords:30 }}</div>
+				<p class="review-link"><a href="{% url 'reviews:detail' review.id %}">Read the full review ›</a></p>
+				<p class="review-date">Published on {{ review.created|date:"d M Y" }}</p>
+			</li>
+			{% endfor %}
+		</ul>
+		{% else %}
+		<p>No reviews found</p>
+		{% endif %}
+	</div>
+
+	<div class="col-md-3 col-md-offset-1">
+		<h3>Filter</h3>
+		<p>
+			<form action="" method="GET">
+				<p>
+					Show only reviews for:
+					<select name="agency_id">
+						<option value="">All agencies</option>
+						{% for agency in agencies %}
+						<option {% if filter and filter == agency.id %}selected {% endif %}value="{{ agency.id }}">{{ agency.name }}</option>
+						{% endfor %}
+					</select>
+				</p>
+				<p>
+					<input class="btn btn-primary btn-sm" id="filter-submit" type="submit" value="Filter" />
+					{% if filter %}<a class="btn btn-default btn-sm" href="{% url 'reviews:list' %}" id="filter-reset">Reset</a>{% endif %}
+				</p>
+			</form>
+		</p>
+
+		<h3>Write a review</h3>
+		<p>
+			Do you have something to share?<br>
+			This is the place to do it!<br>
+			Be constructive and remember that no name will show next to your review.<br>
+		</p>
+		<p><a href="{% url 'reviews:create' %}" class="btn btn-primary">Write a review</a></p>
+	</div>
+</div>
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'housing_reviews/js/vendor/raty/jquery.raty.min.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		{% include 'housing_reviews/raty_setup.js.html' %}
+
+		$('.raty-stars').each(function (index, element) {
+			$(this).raty({
+				readOnly: true,
+				score: $(this).children('.review-rating').first().text(),
+			});
+		});
+		$('.review-rating').hide();
+	});
+</script>
+{% endblock %}

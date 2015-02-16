@@ -1,0 +1,16 @@
+{% extends "housing_reviews/base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block panel-title %}{% trans "Invite a friend" %}{% endblock %}
+
+{% block content %}
+
+{% ifequal remaining_invitations 0 %}
+	<p>{% trans "You currently have no invitations to send." %}</p>
+{% else %}
+	<p>Share the love! You have {{ remaining_invitations }} invitations left to send. Why not invite some friends to join the revolution?</p>
+	{% crispy form form.helper %}
+{% endifequal %}
+
+{% endblock %}

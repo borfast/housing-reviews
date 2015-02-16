@@ -1,0 +1,31 @@
+{% extends "housing_reviews/base.html" %}
+{% load crispy_forms_tags %}
+
+{% block panel-title %}Writing a new review{% endblock %}
+
+{% block content %}
+    {% crispy form form.helper %}
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'housing_reviews/js/vendor/raty/jquery.raty.min.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		$ratystars = $('#ratystars');
+		$div_rating = $('#div_id_rating');
+		$ratystars.appendTo('#div_id_rating .controls');
+		$('#div_id_rating .controls select').hide();
+
+		$ratystars.raty({
+			target: '#id_rating',
+			path: '{% static 'housing_reviews/js/vendor/raty/img' %}',
+			targetKeep: true,
+			targetType: 'number'
+		});
+
+	});
+
+
+</script>
+{% endblock %}

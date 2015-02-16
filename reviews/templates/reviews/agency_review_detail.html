@@ -1,0 +1,113 @@
+{% extends "housing_reviews/base.html" %}
+
+{% block panel-title %}Review for {{ review.agency.name }}{% endblock %}
+
+{% block content %}
+<h3>{{ review.title }}</h3>
+<p>Published on {{ review.created|date:"d M Y" }}</p>
+<p><div id="raty-stars"><span id="review-rating">{{ review.rating }}</span></div></p>
+<p>{{ review.review|linebreaks }}</p>
+
+<div class="review-votes" data-id="{{review.id}}">
+	<small>
+
+	<p><span id="review-score">{{ review_score.score }}</span> of <span id="review-total">{{ review_score.total_votes }}</span> people found the following review helpful. Help other users find the most helpful reviews.</p>
+		<p>
+			Was this review helpful to you?
+			<a href="#" id="vote-up" class="btn btn-sm {% if user_has_voted and user_vote == 1 %}btn-info{% else %}btn-default{% endif %}" data-url="{% url 'reviews:vote' review.id 'up' %}">Yes</a>
+			<a href="#" id="vote-down" class="btn btn-sm {% if user_has_voted and user_vote == -1 %}btn-info{% else %}btn-default{% endif %}" data-url="{% url 'reviews:vote' review.id 'down' %}">No</a>
+		</p>
+	</small>
+</div>
+
+
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'standrewshousingreviews';
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+{% endblock %}
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'housing_reviews/js/vendor/raty/jquery.raty.min.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		{% include 'housing_reviews/raty_setup.js.html' %}
+
+		var $raty = $('#raty-stars'),
+			$rating = $('#review-rating');
+
+		$raty.raty({
+			readOnly: true,
+			score: $rating.first().text(),
+		});
+
+		$rating.hide();
+	});
+</script>
+
+
+<script src="{% static 'housing_reviews/js/vendor/jquery.cookie.js' %}"></script>
+<script type="text/javascript">
+	function csrfSafeMethod(method) {
+	    // these HTTP methods do not require CSRF protection
+	    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+	}
+	$.ajaxSetup({
+		crossDomain: false, // obviates need for sameOrigin test
+		beforeSend: function(xhr, settings) {
+		    if (!csrfSafeMethod(settings.type)) {
+		    	var csrftoken = $.cookie('csrftoken');
+		        xhr.setRequestHeader("X-CSRFToken", csrftoken);
+		    }
+		}
+	});
+	$(document).ready(function () {
+		var $vote_up = $('#vote-up'),
+			$vote_down = $('#vote-down')
+
+		$('.review-votes').each(function(){
+			var id = $(this).data('id');
+
+			function postVote(url)
+			{
+				$.ajax({
+					type:'POST',
+					url: url,
+					success : function(data) {
+						$('#review-score').html(data['show_score']);
+						$('#review-total').html(data['total_votes']);
+
+						console.log(data['created']);
+
+						if (data['vote'] == 1) {
+							$vote_up.removeClass('btn-default').addClass('btn-info');
+							$vote_down.removeClass('btn-info').addClass('btn-default');
+						} else {
+							$vote_down.removeClass('btn-default').addClass('btn-info');
+							$vote_up.removeClass('btn-info').addClass('btn-default');
+						}
+					}
+				});
+			}
+
+			$(this).find('#vote-up, #vote-down').on('click', function() {
+				var url = $(this).data('url');
+				postVote(url);
+
+				return false;
+			});
+		});
+	});
+</script>
+{% endblock %}

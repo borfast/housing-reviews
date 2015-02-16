@@ -1,0 +1,62 @@
+{% extends "housing_reviews/base.html" %}
+
+{% block panel-title %}Letting agencies{% endblock %}
+
+{% block content %}
+<h3>Know who you're dealing with!</h3>
+
+<p>
+	In this page you can see a list of the major, if not all the letting agents operating in St Andrews.<br />
+	If you click their names, you'll be taken to a list of reviews for them (if any exist).<br />
+	Hopefully it will help you decide who you want to do business with.
+</p>
+
+{% if agencies %}
+<table class="table table-striped table-responsive">
+	<thead>
+		<tr>
+			<th>Agency</th>
+			<th>Average rating</th>
+			<th>Website</th>
+		</tr>
+	</thead>
+	{% for agency in agencies %}
+	<tr>
+		<td><a href="{% url 'reviews:list' %}?agency_id={{ agency.id }}">{{ agency.name }}</a></td>
+		<td>
+			{% if agency.rating.votes > 0 %}
+			<span class="raty-stars">
+				<span class="review-rating">{{ agency.rating.get_rating }}</span>
+			</span>
+			&nbsp;({{ agency.rating.votes }} ratings)
+			{% else %}
+			No ratings yet.
+			{% endif %}
+		</td>
+		<td><a rel="nofollow" href="{{ agency.website }}">{{ agency.website }}</a></td>
+	</tr>
+	{% endfor %}
+</table>
+{% else %}
+<h2>No agencies found</h2>
+{% endif %}
+{% endblock %}
+
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'housing_reviews/js/vendor/raty/jquery.raty.min.js' %}"></script>
+<script>
+	$(document).ready(function () {
+		{% include 'housing_reviews/raty_setup.js.html' %}
+
+		$('.raty-stars').each(function (index, element) {
+			$(this).raty({
+				readOnly: true,
+				score: $(this).children('.review-rating').first().text(),
+			});
+		});
+		$('.review-rating').hide();
+	});
+</script>
+{% endblock %}
