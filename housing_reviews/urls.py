@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, include, url
 # from django.conf.urls.static import static
 # from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.http import HttpResponse
 # from django.conf import settings
 from django.views.generic import TemplateView
 
@@ -11,7 +10,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow:", mimetype="text/plain")),
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 
     url(r'^', include('subscribe.urls', namespace="subscribe")),
     url(r'^accounts/', include('allauth.urls')),
