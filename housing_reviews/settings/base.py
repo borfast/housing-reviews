@@ -47,7 +47,7 @@ TIME_ZONE = 'Europe/London'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-uk'
 
-SITE_ID = 1  # if DEBUG else 2
+SITE_ID = 2 if DEBUG else 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -118,8 +118,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 
     # allauth specific context processors
-    'allauth.account.context_processors.account',
-    'allauth.socialaccount.context_processors.socialaccount',
+    # 'allauth.account.context_processors.account',
+    # 'allauth.socialaccount.context_processors.socialaccount',
 )
 
 DJANGO_APPS = (
