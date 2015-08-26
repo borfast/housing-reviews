@@ -6,7 +6,6 @@ from django.views.generic import TemplateView
 
 # Enable the admin:
 from django.contrib import admin
-admin.autodiscover()
 
 urlpatterns = patterns(
     '',

@@ -44,9 +44,8 @@ class AccountAdapter(DefaultAccountAdapter):
                 return True
         return False
 
-
     @receiver (user_signed_up)
-    def complete_signup(sender, **kwargs):
+    def complete_signup(self, **kwargs):
         user = kwargs.pop('user')
         request = kwargs.pop('request')
         # sociallogin = request.session.get('socialaccount_sociallogin', None)
@@ -89,17 +88,15 @@ class AccountAdapter(DefaultAccountAdapter):
                 merge_vars = {'groupings':[{'id': grouping_id, 'groups':['Invitation accepted, account created']}]}
                 m.lists.update_member(list_id, email={'euid':member_id}, merge_vars=merge_vars)
 
-
             except mailchimp.Error, e:
                 logger = logging.getLogger()
                 logger.error('There was an error updating mailchimp after a signup', exc_info=True, extra={
                     'exception': e, 'email_address': invited_email
                 })
                 # messages.error(request,  "Invalid API key")
-            ### Finish moving the email address in mailchimp
+            # Finish moving the email address in mailchimp
             ################################################
         # print(user.username, ": has signed up!")
-
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):
