@@ -11,7 +11,7 @@
 <p>Incorrect username and password.</p>
 {% endif %}
 
-{% if socialaccount.providers  %}
+{#{% if socialaccount.providers  %}#}
 <div class="row">
 
     <div class="col-md-4" id="login-normal">
@@ -29,7 +29,9 @@
 
     <div class="col-md-6" id="login-social">
         <h3>Don't have an account yet?</h3>
-        <p>Go to the <a href="{% url 'subscribe:home' %}">home page</a> and enter your email in the box. We'll send you an invitation soon.</p>
+        <p>Go to the <a href="{{ signup_url }}">registration
+            page</a> and get yourself an
+            account. It's that simple.</p>
         <p>
             If you already have an account but can't login, please use the Feedback &amp; Support tab on the left-hand side of the site, or the link with the same name at the top to contact us. We'll be glad to help!
         </p>
@@ -39,6 +41,6 @@
 
 {% include "socialaccount/snippets/login_extra.html" %}
 
-{% endif %}
+{#{% endif %}#}
 
 {% endblock %}
