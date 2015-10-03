@@ -21,10 +21,7 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "housing_reviews.settings")
 # file. This includes Django's development server, if the WSGI_APPLICATION
 # setting points here.
 from django.core.wsgi import get_wsgi_application
-application = get_wsgi_application()
+from whitenoise.django import DjangoWhiteNoise
 
-# Apply WSGI middleware here.
-# from helloworld.wsgi import HelloWorldApplication
-# application = HelloWorldApplication(application)
-from raven.contrib.django.raven_compat.middleware.wsgi import Sentry
-application = Sentry(application)
+application = get_wsgi_application()
+application = DjangoWhiteNoise(application)

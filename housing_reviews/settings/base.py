@@ -129,7 +129,6 @@ THIRD_PARTY_APPS = (
     'django_extensions',
     'model_utils',
     'djangosecure',
-    'storages',
     'crispy_forms',
     'allauth',
     'allauth.account',
