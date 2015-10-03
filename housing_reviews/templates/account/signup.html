@@ -1,13 +1,8 @@
 {% extends "housing_reviews/base.html" %}
-{% load i18n %}
 
 {% block panel-title %}{% trans "Registration" %}{% endblock %}
 
 {% block content %}
-
-{% if request.session.invitation_accepted %}
-<p>Your invitation code has been accepted. You may now proceed with your account creation.</p>
-{% endif %}
 
 <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
     {% csrf_token %}

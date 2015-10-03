@@ -1,33 +1,25 @@
-import os
-import dj_database_url
-from unipath import Path
+from __future__ import absolute_import, unicode_literals
 
-# Normally you should not import ANYTHING from Django directly
-# into your settings, but ImproperlyConfigured is an exception.
-from django.core.exceptions import ImproperlyConfigured
+import environ
 
 
-def get_env_variable(var_name):
-    """ Get the environment variable or return exception """
-    try:
-        return os.environ[var_name]
-    except KeyError:
-        error_msg = "Set the %s environment variable" % var_name
-    raise ImproperlyConfigured(error_msg)
+env = environ.Env(DEBUG=(bool, False),)  # set default values and casting
 
-PROJECT_DIR = Path(__file__).ancestor(3)
+ROOT_DIR = environ.Path(__file__) - 3  # (/a/b/myfile.py - 3 = /)
+APPS_DIR = ROOT_DIR.path('housing_reviews')
 
-DEBUG = os.environ.get('DEBUG', False)
+DEBUG = env('DEBUG')
 TEMPLATE_DEBUG = DEBUG
 
-DATABASES = {"default": dj_database_url.config()}  # Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
+# Raises ImproperlyConfigured exception if DATABASE_URL not in os.environ
+DATABASES = {"default": env.db()}
 
-MEDIA_ROOT = ''
+MEDIA_ROOT = str(ROOT_DIR('uploads'))
 MEDIA_URL = ''
-STATIC_ROOT = PROJECT_DIR.child('staticfiles')
+STATIC_ROOT = str(ROOT_DIR('staticfiles'))
 STATIC_URL = '/static/'
 
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
 
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
 
@@ -61,13 +53,12 @@ USE_L10N = True
 USE_TZ = True
 
 
-
-
 # Additional locations of static files
 STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    str(APPS_DIR.path('static')),
 )
 
 # List of finder classes that know how to find static files in
@@ -87,7 +78,6 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'djangosecure.middleware.SecurityMiddleware',
-    'raven.contrib.django.raven_compat.middleware.SentryResponseErrorIdMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -103,10 +93,7 @@ ROOT_URLCONF = 'housing_reviews.urls'
 WSGI_APPLICATION = 'housing_reviews.wsgi.application'
 
 TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    # root('templates'),
+
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -143,7 +130,6 @@ THIRD_PARTY_APPS = (
     'model_utils',
     'djangosecure',
     'storages',
-    'raven.contrib.django.raven_compat',
     'crispy_forms',
     'allauth',
     'allauth.account',
@@ -157,10 +143,8 @@ THIRD_PARTY_APPS = (
 
 LOCAL_APPS = (
     'housing_reviews',
-    'subscribe',
     'agencies',
     'reviews',
-    'come_in',
 )
 
 INSTALLED_APPS = LOCAL_APPS + DJANGO_APPS + THIRD_PARTY_APPS
@@ -184,10 +168,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap'
 
 
 def include_config(filename):
-    filename = PROJECT_DIR.child('housing_reviews', 'settings', filename)
+    filename = str(ROOT_DIR('housing_reviews', 'settings', filename))
     with open(filename) as f:
         code = compile(f.read(), filename, 'exec')
-        exec(code)
+        exec code
 
 include_config('sentry.py')
 include_config('logging.py')

@@ -1,6 +1,6 @@
-from .base import get_env_variable
+from .base import *
 
 # Sentry
 RAVEN_CONFIG = {
-    'dsn': get_env_variable('SENTRY_DSN')
+    'dsn': env('SENTRY_DSN')
 }

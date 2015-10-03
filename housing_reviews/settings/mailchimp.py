@@ -1,5 +1,5 @@
-from .base import get_env_variable
+from .base import *
 
 # Mailchimp settings
-MAILCHIMP_API_KEY = get_env_variable('MAILCHIMP_API_KEY')
-MAILCHIMP_INVITED_LIST_ID = get_env_variable('MAILCHIMP_INVITED_LIST_ID')
+MAILCHIMP_API_KEY = env('MAILCHIMP_API_KEY')
+MAILCHIMP_INVITED_LIST_ID = env('MAILCHIMP_INVITED_LIST_ID')
