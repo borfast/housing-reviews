@@ -173,7 +173,6 @@ def include_config(filename):
         code = compile(f.read(), filename, 'exec')
         exec code
 
-include_config('sentry.py')
 include_config('logging.py')
 include_config('email.py')
 include_config('auth.py')
