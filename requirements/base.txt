@@ -18,7 +18,7 @@ greenlet>=0.4.7, <1.0
 gunicorn>=0.19
 mailchimp>=2.0.7
 mandrill>=1.0.53
-Pillow>=2.9.0, < 3.0
+Pillow==4.1.1
 postmonkey>=1.0b
 psycopg2>=2.6, <3.0
 simplejson>=3.8, < 4.0
