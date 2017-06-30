@@ -1,4 +1,4 @@
-Django>=1.7.9,<1.8
+Django==1.11.2
 boto>=2.38.0, < 3.0
 django-activeurl>=0.1.8
 django-admin-tools>=0.6, < 1.0
